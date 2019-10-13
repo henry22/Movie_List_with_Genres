@@ -52,7 +52,7 @@
       `
 
       tabContentTemplate += `
-        <div class="tab-pane fade show ${activeClass}" id="list-${genre}" role="tabpanel" aria-labelledby="list-${genre}-list">${genre}</div>
+        <div class="tab-pane fade show ${activeClass}" id="list-${genre}" role="tabpanel" aria-labelledby="list-${genre}-list"></div>
       `
     }
 
@@ -69,11 +69,11 @@
     cards.forEach(card => {
       const genres = card.genres
 
-      genresTemplate = genres.map(genreNum => `<span class="border">${genresMapping[genreNum]}</span>`).join('')
+      genresTemplate = genres.map(genreNum => `<span class="d-inline-block bg-light p-1 mr-1 font-weight-bold rounded text-secondary" style="font-size: 12px;">${genresMapping[genreNum]}</span>`).join('')
 
       cardTemplate += `
         <div class="col-lg-3 col-md-4 col-sm-6">
-          <div class="card">
+          <div class="card mb-2">
             <img src="${IMAGE_URL}${card.image}" class="card-img-top" alt="${card.title} image">
             <div class="card-body">
               <h5 class="card-title">${card.title}</h5>
