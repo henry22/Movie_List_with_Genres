@@ -52,7 +52,7 @@
       `
 
       tabContentTemplate += `
-        <div class="tab-pane fade show ${activeClass} row" id="list-${genre}" role="tabpanel" aria-labelledby="list-${genre}-list">${genre}</div>
+        <div class="tab-pane fade show ${activeClass}" id="list-${genre}" role="tabpanel" aria-labelledby="list-${genre}-list">${genre}</div>
       `
     }
 
@@ -63,24 +63,30 @@
   function renderCard(cards) {
     let cardTemplate = ''
     let genresTemplate = ''
+    const cardDeck = document.createElement('div')
+    cardDeck.classList.add('card-deck', 'row')
 
-    cards.forEach((card, index) => {
+    cards.forEach(card => {
       const genres = card.genres
 
       genresTemplate = genres.map(genreNum => `<span class="border">${genresMapping[genreNum]}</span>`).join('')
 
       cardTemplate += `
-        <div class="card col-3">
-          <img src="${IMAGE_URL}${card.image}" class="card-img-top" alt="${card.title} image">
-          <div class="card-body">
-            <h5 class="card-title">${card.title}</h5>
-            ${genresTemplate}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="card">
+            <img src="${IMAGE_URL}${card.image}" class="card-img-top" alt="${card.title} image">
+            <div class="card-body">
+              <h5 class="card-title">${card.title}</h5>
+              ${genresTemplate}
+            </div>
           </div>
         </div>
       `
     })
 
-    navTabContent.firstElementChild.innerHTML = cardTemplate
+    cardDeck.innerHTML = cardTemplate
+
+    navTabContent.firstElementChild.appendChild(cardDeck)
   }
 
   renderGroupList(genresMapping)
