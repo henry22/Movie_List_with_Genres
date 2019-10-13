@@ -26,4 +26,12 @@
   const listTab = document.querySelector('#list-tab')
   const navTabContent = document.querySelector('#nav-tabContent')
   const movieData = []
+
+  axios.get(INDEX_URL)
+    .then(response => {
+      const movies = response.data.results
+
+      movieData.push(...movies)
+    })
+    .catch(error => console.log(error))
 })()
