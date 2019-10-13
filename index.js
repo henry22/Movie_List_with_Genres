@@ -24,7 +24,7 @@
     "19": "Western"
   }
   const listTab = document.querySelector('#list-tab')
-  const navTabContent = document.querySelector('#nav-tabContent')
+  const cardDeck = document.querySelector('#nav-tabContent > .card-deck')
   const movieData = []
 
   axios.get(INDEX_URL)
@@ -33,7 +33,7 @@
 
       movieData.push(...movies)
 
-      genreData = movieData.filter(movie => movie.genres.indexOf(1) > 0)
+      const genreData = filterGenreMovies(movieData, 1)
 
       renderCard(genreData)
     })
@@ -48,7 +48,7 @@
       const activeClass = (index === '1') ? 'active' : ''
 
       listTabTemplate += `
-        <a class="list-group-item list-group-item-action ${activeClass}" id="list-${genre}-list" data-toggle="list" href="#list-${genre}" role="tab" aria-controls="${genre}">${genresLists[index]}</a>
+        <a class="list-group-item list-group-item-action ${activeClass}" id="list-${genre}-list" data-toggle="list" href="#list-${genre}" role="tab" aria-controls="${genre}" data-genreindex="${index}">${genresLists[index]}</a>
       `
 
       tabContentTemplate += `
@@ -57,14 +57,12 @@
     }
 
     listTab.innerHTML = listTabTemplate
-    navTabContent.innerHTML = tabContentTemplate
+    cardDeck.innerHTML = tabContentTemplate
   }
 
   function renderCard(cards) {
     let cardTemplate = ''
     let genresTemplate = ''
-    const cardDeck = document.createElement('div')
-    cardDeck.classList.add('card-deck', 'row')
 
     cards.forEach(card => {
       const genres = card.genres
@@ -85,9 +83,20 @@
     })
 
     cardDeck.innerHTML = cardTemplate
+  }
 
-    navTabContent.firstElementChild.appendChild(cardDeck)
+  function switchGenre(event) {
+    const genreIndex = Number(event.target.dataset.genreindex)
+    const genreMovies = filterGenreMovies(movieData, genreIndex)
+
+    renderCard(genreMovies)
+  }
+
+  function filterGenreMovies(movies, matchGenreIndex) {
+    return movies.filter(movie => movie.genres.indexOf(matchGenreIndex) > 0)
   }
 
   renderGroupList(genresMapping)
+
+  listTab.addEventListener('click', switchGenre)
 })()
