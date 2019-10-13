@@ -34,4 +34,27 @@
       movieData.push(...movies)
     })
     .catch(error => console.log(error))
+  
+  function renderGroupList(genresLists) {
+    let listTabTemplate = ''
+    let tabContentTemplate = ''
+
+    for (let index in genresLists) {
+      let genre = genresLists[index].toLowerCase()
+      const activeClass = (index === '1') ? 'active' : ''
+
+      listTabTemplate += `
+        <a class="list-group-item list-group-item-action ${activeClass}" id="list-${genre}-list" data-toggle="list" href="#list-${genre}" role="tab" aria-controls="${genre}">${genresLists[index]}</a>
+      `
+
+      tabContentTemplate += `
+        <div class="tab-pane fade show ${activeClass} row" id="list-${genre}" role="tabpanel" aria-labelledby="list-${genre}-list">${genre}</div>
+      `
+    }
+
+    listTab.innerHTML = listTabTemplate
+    navTabContent.innerHTML = tabContentTemplate
+  }
+
+  renderGroupList(genresMapping)
 })()
