@@ -32,6 +32,10 @@
       const movies = response.data.results
 
       movieData.push(...movies)
+
+      genreData = movieData.filter(movie => movie.genres.indexOf(1) > 0)
+
+      renderCard(genreData)
     })
     .catch(error => console.log(error))
   
@@ -54,6 +58,29 @@
 
     listTab.innerHTML = listTabTemplate
     navTabContent.innerHTML = tabContentTemplate
+  }
+
+  function renderCard(cards) {
+    let cardTemplate = ''
+    let genresTemplate = ''
+
+    cards.forEach((card, index) => {
+      const genres = card.genres
+
+      genresTemplate = genres.map(genreNum => `<span class="border">${genresMapping[genreNum]}</span>`).join('')
+
+      cardTemplate += `
+        <div class="card col-3">
+          <img src="${IMAGE_URL}${card.image}" class="card-img-top" alt="${card.title} image">
+          <div class="card-body">
+            <h5 class="card-title">${card.title}</h5>
+            ${genresTemplate}
+          </div>
+        </div>
+      `
+    })
+
+    navTabContent.firstElementChild.innerHTML = cardTemplate
   }
 
   renderGroupList(genresMapping)
